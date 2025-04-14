@@ -1,5 +1,5 @@
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Home, FolderOpen, Search, Settings, BookOpen, Clock, Star, Trash2 } from "lucide-react";
 import {
   Sidebar,
@@ -32,6 +32,17 @@ const collectionItems = [
 ];
 
 const AppSidebar = () => {
+  const location = useLocation();
+
+  // Helper function to check if a collection link is active
+  const isCollectionActive = (path: string) => {
+    const currentParams = new URLSearchParams(location.search);
+    const linkParams = new URLSearchParams(path.split('?')[1] || '');
+    
+    return location.pathname === '/documents' && 
+           currentParams.get('collection') === linkParams.get('collection');
+  };
+
   return (
     <Sidebar>
       <SidebarHeader className="flex items-center h-16 px-4">
@@ -75,12 +86,10 @@ const AppSidebar = () => {
                   <SidebarMenuButton asChild>
                     <NavLink 
                       to={item.path} 
-                      className={({ isActive }) => {
-                        // Check both the path and search parameters
-                        return isActive 
-                          ? "text-white bg-sidebar-accent font-medium" 
-                          : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white";
-                      }}
+                      className={isCollectionActive(item.path) 
+                        ? "text-white bg-sidebar-accent font-medium" 
+                        : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white"
+                      }
                     >
                       <item.icon className="h-5 w-5" />
                       <span>{item.title}</span>

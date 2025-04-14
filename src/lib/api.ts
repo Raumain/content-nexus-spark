@@ -31,19 +31,19 @@ export const fetchDocuments = async (collection?: string): Promise<Document[]> =
       let filteredDocs = [...mockDocuments];
       
       if (collection === "docs") {
-        filteredDocs = filteredDocs.filter(doc => doc.type.includes("document"));
+        filteredDocs = filteredDocs.filter(doc => doc.type?.includes("document") || doc.type?.includes("Document"));
       } else if (collection === "recent") {
         filteredDocs = filteredDocs.filter(
           doc => new Date(doc.lastModified) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
         );
       } else if (collection === "favorites") {
-        filteredDocs = filteredDocs.filter(doc => doc.favorite);
+        filteredDocs = filteredDocs.filter(doc => doc.favorite === true);
       } else if (collection === "trash") {
-        // In a real app, we'd have a "deleted" flag or separate trash data
+        // For the trash collection, we'll return an empty array for now
         filteredDocs = [];
       }
       
-      resolve(filteredDocs);
+      resolve(filteredDocs || []);
     }, 500);
   });
 };

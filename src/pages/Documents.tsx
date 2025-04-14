@@ -32,16 +32,25 @@ import {
 } from "@/components/ui/table";
 import { Document } from "@/types";
 import { fetchDocuments } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 
 const DocumentsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [searchParams] = useSearchParams();
   const collection = searchParams.get("collection") || "all";
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const { data: documents = [], isLoading } = useQuery({
+  const { data: documents = [], isLoading, isError } = useQuery({
     queryKey: ["documents", collection],
     queryFn: () => fetchDocuments(collection),
+    onError: () => {
+      toast({
+        title: "Error loading documents",
+        description: "Could not load the document collection",
+        variant: "destructive",
+      });
+    },
   });
 
   const getCollectionTitle = () => {
@@ -144,13 +153,25 @@ const DocumentsPage = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full p-6">
+        <h1 className="text-2xl font-bold mb-4">Error Loading Documents</h1>
+        <p className="text-muted-foreground mb-6">There was a problem loading the document collection.</p>
+        <Button onClick={() => navigate("/")} variant="outline">
+          Return to Dashboard
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">{getCollectionTitle()}</h1>
           <p className="text-muted-foreground">
-            {!isLoading && documents ? documents.length : 0} document{(documents?.length || 0) !== 1 ? "s" : ""}
+            {!isLoading ? documents.length : 0} document{documents.length !== 1 ? "s" : ""}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -216,7 +237,7 @@ const DocumentsPage = () => {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No documents found.
+                    {isLoading ? "Loading documents..." : "No documents found."}
                   </TableCell>
                 </TableRow>
               )}
