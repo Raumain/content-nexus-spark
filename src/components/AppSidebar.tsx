@@ -75,7 +75,12 @@ const AppSidebar = () => {
                   <SidebarMenuButton asChild>
                     <NavLink 
                       to={item.path} 
-                      className={({ isActive }) => isActive ? "text-white bg-sidebar-accent font-medium" : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white"}
+                      className={({ isActive }) => {
+                        // Check both the path and search parameters
+                        return isActive 
+                          ? "text-white bg-sidebar-accent font-medium" 
+                          : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white";
+                      }}
                     >
                       <item.icon className="h-5 w-5" />
                       <span>{item.title}</span>

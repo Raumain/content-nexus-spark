@@ -39,7 +39,7 @@ const DocumentsPage = () => {
   const collection = searchParams.get("collection") || "all";
   const navigate = useNavigate();
 
-  const { data: documents, isLoading } = useQuery({
+  const { data: documents = [], isLoading } = useQuery({
     queryKey: ["documents", collection],
     queryFn: () => fetchDocuments(collection),
   });
@@ -133,7 +133,7 @@ const DocumentsPage = () => {
   ];
 
   const table = useReactTable({
-    data: documents || [],
+    data: documents,
     columns,
     state: {
       sorting,
