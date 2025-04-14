@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -40,15 +41,18 @@ const DocumentsPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  // Updated useQuery with proper error handling for v5+
   const { data: documents = [], isLoading, isError } = useQuery({
     queryKey: ["documents", collection],
     queryFn: () => fetchDocuments(collection),
-    onError: (error) => {
-      toast({
-        title: "Error loading documents",
-        description: "Could not load the document collection",
-        variant: "destructive",
-      });
+    meta: {
+      onError: () => {
+        toast({
+          title: "Error loading documents",
+          description: "Could not load the document collection",
+          variant: "destructive",
+        });
+      }
     },
   });
 
