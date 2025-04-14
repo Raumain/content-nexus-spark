@@ -1,73 +1,99 @@
-# Welcome to your Lovable project
 
-## Project info
+# NuxeoDocs - Document Management System
 
-**URL**: https://lovable.dev/projects/e5c8d752-66c2-4f84-a186-009e20718b32
+A modern document management system built with React, TypeScript, and ElysiaJS.
 
-## How can I edit this code?
+## Project Overview
 
-There are several ways of editing your application.
+NuxeoDocs is a document management application inspired by Nuxeo. It provides a clean, enterprise-ready interface for managing, viewing, and searching documents.
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e5c8d752-66c2-4f84-a186-009e20718b32) and start prompting.
+- Dashboard with document statistics
+- Document browsing with filtering options
+- Document preview and metadata viewing
+- Search functionality
+- User settings
+- Responsive design
 
-Changes made via Lovable will be committed automatically to this repo.
+## Tech Stack
 
-**Use your preferred IDE**
+### Frontend
+- React
+- TypeScript
+- TanStack Query for data fetching
+- TanStack Table for data tables
+- Tailwind CSS for styling
+- shadcn/ui for UI components
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Backend
+- Bun runtime
+- ElysiaJS framework
+- RESTful API endpoints
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Running the Application
 
-Follow these steps:
+### Running the Frontend
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The frontend application will be available at `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Running the Backend
 
-**Use GitHub Codespaces**
+```bash
+# Navigate to the backend directory
+cd backend
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Install Bun if you don't have it
+# For macOS, Linux, and WSL
+curl -fsSL https://bun.sh/install | bash
 
-## What technologies are used for this project?
+# Install dependencies
+bun install
 
-This project is built with:
+# Start the development server
+bun run dev
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+The backend API will be available at `http://localhost:3000`.
 
-## How can I deploy this project?
+## API Endpoints
 
-Simply open [Lovable](https://lovable.dev/projects/e5c8d752-66c2-4f84-a186-009e20718b32) and click on Share -> Publish.
+- `GET /api/dashboard/stats` - Get dashboard statistics
+- `GET /api/documents` - Get all documents (with optional collection filter)
+- `GET /api/documents/:id` - Get a specific document by ID
+- `GET /api/documents/recent` - Get recently modified documents
+- `GET /api/search` - Search documents (with optional filters)
 
-## Can I connect a custom domain to my Lovable project?
+## Project Structure
 
-Yes, you can!
+```
+├── backend/                 # Backend code
+│   ├── mockData.json        # Mock data for the backend
+│   ├── index.ts             # ElysiaJS entry point
+│   └── package.json         # Backend dependencies
+│
+├── src/                     # Frontend code
+│   ├── components/          # React components
+│   ├── hooks/               # Custom React hooks
+│   ├── lib/                 # Utility functions and API clients
+│   ├── pages/               # Page components
+│   ├── types/               # TypeScript type definitions
+│   ├── App.tsx              # Main application component
+│   └── main.tsx             # Entry point
+│
+├── public/                  # Static assets
+├── package.json             # Frontend dependencies
+└── README.md                # Project documentation
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## License
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project is licensed under the MIT License.
