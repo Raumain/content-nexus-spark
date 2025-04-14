@@ -44,12 +44,14 @@ const DocumentsPage = () => {
   const { data: documents = [], isLoading, isError } = useQuery({
     queryKey: ["documents", collection],
     queryFn: () => fetchDocuments(collection),
-    onError: () => {
-      toast({
-        title: "Error loading documents",
-        description: "Could not load the document collection",
-        variant: "destructive",
-      });
+    onSettled: (data, error) => {
+      if (error) {
+        toast({
+          title: "Error loading documents",
+          description: "Could not load the document collection",
+          variant: "destructive",
+        });
+      }
     },
   });
 
